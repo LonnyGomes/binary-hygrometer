@@ -10,6 +10,7 @@ class BlinktLEDs:
     clear()
 
     foundFirstDigit = False
+    dim = 0.2
 
     # fill leds based leds array
     for i in range(len(leds)):
@@ -20,7 +21,7 @@ class BlinktLEDs:
         # we only want to fill colors if the first digit
         # has already been encountered
         if foundFirstDigit:
-          set_pixel(i, 255, 255, 255, 0.1)
+          set_pixel(i, 255 * dim, 255 * dim, 255 * dim, 0.1)
 
     show()
 
