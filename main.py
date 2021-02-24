@@ -1,5 +1,8 @@
+import time
+from modules.DHTSensor import DHTSensor
 
 LED_COUNT = 8
+DHT_PIN = 4
 
 def setLED(rawInputVal):
   ledVals = [0] * LED_COUNT
@@ -24,11 +27,11 @@ def setLED(rawInputVal):
 
   return ledVals
 
-leds = setLED(100)
-print(leds)
-leds = setLED(1)
-print(leds)
-leds = setLED(50)
-print(leds)
-leds = setLED(50.5)
-print(leds)
+dht = DHTSensor(DHT_PIN)
+
+while True:
+  temperature, humidity = dht.getValues()
+  print("Temp={0:0.1f}*F  Humidity={1:0.1f}%".format(temperature, humidity))
+  leds = setLED(humidity)
+  print(leds)
+  time.sleep(10)
