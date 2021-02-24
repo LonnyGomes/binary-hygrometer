@@ -33,10 +33,16 @@ def calcLEDs(rawInputVal):
 dht = DHTSensor(DHT_PIN)
 blinkt = BlinktLEDs()
 
+
 while True:
-  temperature, humidity = dht.getValues()
-  print("Temp={0:0.1f}*F  Humidity={1:0.1f}%".format(temperature, humidity))
-  leds = calcLEDs(humidity)
-  print(leds)
-  blinkt.setLEDs(leds)
-  time.sleep(10)
+  try:
+    temperature, humidity = dht.getValues()
+    print("Temp={0:0.1f}*F  Humidity={1:0.1f}%".format(temperature, humidity))
+    leds = calcLEDs(humidity)
+    print(leds)
+    blinkt.setLEDs(leds)
+    time.sleep(10)
+  except ValueError as error:
+    # failing to read this type of sensor is common, try again
+    continue
+

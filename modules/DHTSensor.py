@@ -19,7 +19,7 @@ class DHTSensor:
       humidity = -1
       temperature = -1
 
-      return (temperature, humidity)
+      raise ValueError('Failed to retrieve data')
     except Exception as error:
       dhtDevice.exit()
       raise error
