@@ -8,12 +8,20 @@ class BlinktLEDs:
  
   def setLEDs(self, leds):
     clear()
-    set_brightness(.5)
+
+    foundFirstDigit = False
 
     # fill leds based leds array
     for i in range(len(leds)):
       if (leds[i] == 1):
-        set_pixel(i, 0, 255, 0)
+        foundFirstDigit = True
+        set_pixel(i, 0, 0, 255, 0.8)
+      else:
+        # we only want to fill colors if the first digit
+        # has already been encountered
+        if foundFirstDigit:
+          set_pixel(i, 255, 255, 255, 0.1)
+
     show()
 
 if __name__ == '__main__':
