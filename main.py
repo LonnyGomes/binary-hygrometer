@@ -1,10 +1,11 @@
 import time
 from modules.DHTSensor import DHTSensor
+from modules.BlinktLEDs import BlinktLEDs
 
 LED_COUNT = 8
 DHT_PIN = 4
 
-def setLED(rawInputVal):
+def calcLEDs(rawInputVal):
   ledVals = [0] * LED_COUNT
 
   # verify for valid value
@@ -28,10 +29,12 @@ def setLED(rawInputVal):
   return ledVals
 
 dht = DHTSensor(DHT_PIN)
+blinkt = BlinktLEDs()
 
 while True:
   temperature, humidity = dht.getValues()
   print("Temp={0:0.1f}*F  Humidity={1:0.1f}%".format(temperature, humidity))
-  leds = setLED(humidity)
+  leds = calcLEDs(humidity)
   print(leds)
+  blinkt.setLEDs(leds)
   time.sleep(10)
