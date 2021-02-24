@@ -18,6 +18,8 @@ class DHTSensor:
       print(error.args[0])
       humidity = -1
       temperature = -1
+
+      return (temperature, humidity)
     except Exception as error:
       dhtDevice.exit()
       raise error
