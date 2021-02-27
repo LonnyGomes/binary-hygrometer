@@ -14,12 +14,11 @@ curl https://get.pimoroni.com/blinkt | bash
 **DHT**
 
 ```bash
-pip3 install adafruit-circuitpython-dht
-sudo apt-get install libgpiod2
+sudo pip3 install Adafruit_DHT
 ```
 
 ## Resources
 
 - [Pimoroni Blinkt!](https://shop.pimoroni.com/products/blinkt)
-- [CircutPython DHT LIbrary tutorial](https://learn.adafruit.com/dht-humidity-sensing-on-raspberry-pi-with-gdocs-logging/python-setup)
-- [DHT setup (deprecated)](https://pimylifeup.com/raspberry-pi-humidity-sensor-dht22/)
+- [DHT setup](https://pimylifeup.com/raspberry-pi-humidity-sensor-dht22/)
+- [CircutPython DHT LIbrary tutorial (not working for root)](https://learn.adafruit.com/dht-humidity-sensing-on-raspberry-pi-with-gdocs-logging/python-setup)

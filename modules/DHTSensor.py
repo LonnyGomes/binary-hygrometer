@@ -1,28 +1,29 @@
-import board
-import adafruit_dht
+import Adafruit_DHT
+
+DHT_SENSOR = Adafruit_DHT.DHT22
 
 class DHTSensor:
-  def __init__(self, pin):
+  def __init__(self, pin, temperatureOffset = 0, humidityOffset = 0):
     self.dht_pin = pin
-    self.dhtDevice = adafruit_dht.DHT22(board.D4)
+    self.temperatureOffset = temperatureOffset
+    self.humidityOffset = humidityOffset
 
   def getValues(self):
-    try:
-      temperature = self.dhtDevice.temperature
-      temperature = (temperature * 1.8) + 32
-      humidity= self.dhtDevice.humidity
+    humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, self.dht_pin)
 
-      return (temperature, humidity)
-    except RuntimeError as error:
+    if humidity is not None and temperature is not None:
+      # convert temperature to F
+      temperature = (temperature * 1.8) + 32
+
+      # apply value offets
+      temperature += self.temperatureOffset
+      humidity += self.humidityOffset
+    else:
       print("Failed to retrieve data from humidity sensor") 
-      print(error.args[0])
       humidity = -1
       temperature = -1
 
-      raise ValueError('Failed to retrieve data')
-    except Exception as error:
-      dhtDevice.exit()
-      raise error
+    return (temperature, humidity)
 
 if __name__ == '__main__':
   dht = DHTSensor(4)
