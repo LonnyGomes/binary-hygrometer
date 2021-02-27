@@ -2,14 +2,24 @@
 
 import time
 from modules.DHTSensor import DHTSensor
-from modules.BlinktLEDs import BlinktLEDs
-from modules.NeoPixels import NeoPixels
+
+# Toggle from using Blinkt or NeoPixel strip
+# If set to true, the Blinkt library is used 
+# if False, the neo pixel library is used
+# NOTE: the NeoPixel library requires root to run
+USE_NEO_PIXELS = False
 
 LED_COUNT = 8
 DHT_PIN = 14
 
 DHT_TEMPERATURE_OFFSET = 0
 DHT_HUMIDITY_OFFSET = -14
+
+if USE_NEO_PIXELS:
+  from modules.NeoPixels import NeoPixels
+else:
+  from modules.BlinktLEDs import BlinktLEDs
+
 
 def calcLEDs(rawInputVal):
   ledVals = [0] * LED_COUNT
@@ -35,8 +45,11 @@ def calcLEDs(rawInputVal):
   return ledVals
 
 dht = DHTSensor(DHT_PIN, DHT_TEMPERATURE_OFFSET, DHT_HUMIDITY_OFFSET)
-blinkt = BlinktLEDs(LED_COUNT)
-np = NeoPixels(NeoPixels.D21, LED_COUNT, NeoPixels.GRBW)
+
+if USE_NEO_PIXELS:
+  np = NeoPixels(NeoPixels.D21, LED_COUNT, NeoPixels.GRBW)
+else:
+  blinkt = BlinktLEDs(LED_COUNT)
 
 humidityClr = [0, 0, 255]
 humidityRgbw = (0, 0, 255, 0)
@@ -56,8 +69,11 @@ while True:
     leds = calcLEDs(curVal)
 
     # display the value on LED strip
-    blinkt.setLEDs(leds, curClr)
-    np.setLEDs(leds, curRgbw)
+    if USE_NEO_PIXELS:
+      np.setLEDs(leds, curRgbw)
+    else:
+      blinkt.setLEDs(leds, curClr)
+
     time.sleep(10)
 
     #toggle value
