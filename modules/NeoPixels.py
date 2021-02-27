@@ -38,7 +38,7 @@ class NeoPixels:
       self.pixels.show()
       time.sleep(0.05)
 
-  def setLEDs(self, leds, rgbw = (0, 0, 255)):
+  def setLEDs(self, leds, rgbw = (0, 0, 255, 0)):
     foundFirstDigit = False
     dim = 0.2
     dimRGBW = (0, 0, 0, 255 * dim)
